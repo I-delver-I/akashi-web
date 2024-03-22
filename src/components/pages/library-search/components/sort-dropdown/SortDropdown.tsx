@@ -10,19 +10,19 @@ import {
 import * as styles from './SortDropdown.styles';
 
 type SortDropdownProps = {
-  onSortChange: (value: OrderBy) => void;
+  onSortChange: (value: SortBy) => void;
 };
 
-export enum OrderBy {
+export enum SortBy {
   Downloads = 'downloads',
   LastUpdated = 'lastUpdated',
 }
 
 const SortDropdown: FC<SortDropdownProps> = ({ onSortChange }) => {
-  const [sortValue, setSortValue] = useState(OrderBy.Downloads);
+  const [sortValue, setSortValue] = useState(SortBy.Downloads);
 
   const handleChange = (event: SelectChangeEvent) => {
-    const value = event.target.value as OrderBy;
+    const value = event.target.value as SortBy;
     setSortValue(value);
     onSortChange(value);
   };
@@ -40,8 +40,8 @@ const SortDropdown: FC<SortDropdownProps> = ({ onSortChange }) => {
         onChange={handleChange}
         sx={styles.select}
       >
-        <MenuItem value={OrderBy.Downloads}>Downloads</MenuItem>
-        <MenuItem value={OrderBy.LastUpdated}>Recently updated</MenuItem>
+        <MenuItem value={SortBy.Downloads}>Downloads</MenuItem>
+        <MenuItem value={SortBy.LastUpdated}>Recently updated</MenuItem>
       </Select>
     </FormControl>
   );

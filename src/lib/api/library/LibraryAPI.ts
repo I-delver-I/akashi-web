@@ -1,5 +1,5 @@
 import { FilterFrameworkProductNames } from '@/components/pages/library-search/components/framework-filter/FrameworkFilter';
-import { OrderBy } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
+import { SortBy } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
 import { client } from '@/lib/api/instance';
 import { LibraryBody } from '@/lib/api/library/types/LibraryBody';
 import { getAuthorizationHeader } from '@/lib/api/utils';
@@ -7,27 +7,54 @@ import { Library, PaginatedLibraries } from '@/types/library';
 
 class LibraryAPI {
   async get(
-    frameworkFilter: FilterFrameworkProductNames,
-    orderBy?: OrderBy,
+    pageSize: number,
+    frameworksFilter?: FilterFrameworkProductNames,
+    sortBy?: SortBy,
     searchTerm?: string,
     pageNumber?: number,
-    pageSize?: number,
   ) {
-    const url = searchTerm
-      ? `/libraries?searchTerm=${searchTerm}`
-      : '/libraries';
+    const queryParams = [];
+
+    if (pageNumber) {
+      queryParams.push(`page=${encodeURIComponent(pageNumber)}`);
+    }
+
+    queryParams.push(`q=${encodeURIComponent(searchTerm || '')}`);
+
+    if (sortBy) {
+      queryParams.push(`sortby=${encodeURIComponent(sortBy)}`);
+    }
+
+    const frameworks: string[] = [];
+    if (frameworksFilter?.net) {
+      frameworks.push('net');
+    }
+    if (frameworksFilter?.netFramework) {
+      frameworks.push('netframework');
+    }
+    if (frameworksFilter?.netCore) {
+      frameworks.push('netcoreapp');
+    }
+    if (frameworksFilter?.netStandard) {
+      frameworks.push('netstandard');
+    }
+
+    if (frameworks.length > 0) {
+      queryParams.push(`frameworks=${frameworks.join(',')}`);
+    }
+
+    const url = `/libraries${
+      queryParams.length > 0 ? `?${queryParams.join('&')}` : ''
+    }`;
 
     const { data } = await client.get<PaginatedLibraries>(url, {
       headers: {
-        dotNet: frameworkFilter.dotNet,
-        dotNetCore: frameworkFilter.dotNetCore,
-        dotNetStandard: frameworkFilter.dotNetStandard,
-        dotNetFramework: frameworkFilter.dotNetFramework,
-        pageNumber,
         pageSize,
       },
     });
-    console.log(data.items);
+
+    // @ts-ignore
+    data.items = data.items.$values;
     return data;
   }
 

@@ -6,25 +6,40 @@ import {
   FormControlLabel,
   FormGroup,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 
 type FrameworkFilterProps = {
-  onApplyFilters(filterValues: FilterFrameworkProductNames): void;
+  onApplyFilters(filter: FilterFrameworkProductNames): void;
 };
 
 export type FilterFrameworkProductNames = {
-  dotNet: boolean;
-  dotNetCore: boolean;
-  dotNetStandard: boolean;
-  dotNetFramework: boolean;
+  net: boolean;
+  netCore: boolean;
+  netStandard: boolean;
+  netFramework: boolean;
 };
 
+const defaultFilter = {
+  net: false,
+  netCore: false,
+  netStandard: false,
+  netFramework: false,
+} as FilterFrameworkProductNames;
+
 const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
-  const [selectedFrameworks, setSelectedFrameworks] = useState({
-    dotNet: false,
-    dotNetCore: false,
-    dotNetStandard: false,
-    dotNetFramework: false,
-  } as FilterFrameworkProductNames);
+  const router = useRouter();
+
+  const queryFrameworks = (router.query.frameworks as string)?.split(',');
+
+  const initialFrameworks = {
+    net: queryFrameworks?.includes('net') ?? false,
+    netCore: queryFrameworks?.includes('netcoreapp') ?? false,
+    netStandard: queryFrameworks?.includes('netstandard') ?? false,
+    netFramework: queryFrameworks?.includes('netframework') ?? false,
+  } as FilterFrameworkProductNames;
+
+  const [selectedFrameworks, setSelectedFrameworks] =
+    useState(initialFrameworks);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedFrameworks({
@@ -33,17 +48,9 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
     });
   };
 
-  const handleApplyFilters = () => {
-    onApplyFilters(selectedFrameworks);
-  };
-
-  const resetFilters = () => {
-    setSelectedFrameworks({
-      dotNet: false,
-      dotNetCore: false,
-      dotNetStandard: false,
-      dotNetFramework: false,
-    });
+  const handleResetFilters = () => {
+    setSelectedFrameworks(defaultFilter);
+    onApplyFilters(defaultFilter);
   };
 
   return (
@@ -52,9 +59,9 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedFrameworks.dotNet}
+              checked={selectedFrameworks.net}
               onChange={handleCheckboxChange}
-              name="dotNET"
+              name="net"
             />
           }
           label=".NET"
@@ -62,9 +69,9 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedFrameworks.dotNetCore}
+              checked={selectedFrameworks.netCore}
               onChange={handleCheckboxChange}
-              name="dotNETCore"
+              name="netCore"
             />
           }
           label=".NET Core"
@@ -72,9 +79,9 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedFrameworks.dotNetStandard}
+              checked={selectedFrameworks.netStandard}
               onChange={handleCheckboxChange}
-              name="dotNETStandard"
+              name="netStandard"
             />
           }
           label=".NET Standard"
@@ -82,9 +89,9 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedFrameworks.dotNetFramework}
+              checked={selectedFrameworks.netFramework}
               onChange={handleCheckboxChange}
-              name="dotNETFramework"
+              name="netFramework"
             />
           }
           label=".NET Framework"
@@ -94,11 +101,11 @@ const FrameworkFilter: FC<FrameworkFilterProps> = ({ onApplyFilters }) => {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleApplyFilters}
+          onClick={() => onApplyFilters(selectedFrameworks)}
         >
           Apply
         </Button>
-        <Button variant="text" onClick={resetFilters}>
+        <Button variant="text" onClick={handleResetFilters}>
           Reset
         </Button>
       </Box>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Box, Card, CardContent, ListItem, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material/styles';
@@ -7,16 +7,17 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Breakpoint } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
+import Paginator from '@/components/common/ui/paginator/Paginator';
 import FrameworkFilter, {
   FilterFrameworkProductNames,
 } from '@/components/pages/library-search/components/framework-filter/FrameworkFilter';
-import Paginator from '@/components/pages/library-search/components/paginator/Paginator';
 import Searchbar from '@/components/pages/library-search/components/searchbar/Searchbar';
 import SortDropdown, {
-  OrderBy,
+  SortBy,
 } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
-import LibraryAPI from '@/lib/api/library/LibraryAPI';
 import { Library } from '@/types/library';
 
 import * as styles from './LibrarySearchPage.styles';
@@ -29,88 +30,77 @@ export interface LibrarySearchPageProps {
 }
 
 const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
-  currentPage: initialPage,
+  currentPage,
   pageSize,
   libraries,
   totalCount,
 }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.down('lg' as Breakpoint));
-  const [searchResults, setSearchResults] = useState<Library[]>(libraries);
-  const [filter, setFilter] = useState<FilterFrameworkProductNames>({
-    dotNet: false,
-    dotNetCore: false,
-    dotNetStandard: false,
-    dotNetFramework: false,
-  });
-  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handlePageChange = async (page: number) => {
-    setCurrentPage(page);
-    const { items } = await LibraryAPI.get(
-      filter,
-      undefined,
-      undefined,
-      page,
-      pageSize,
-    );
-    setSearchResults(items);
-  };
-
-  const onApplyFilters = (filterValues: FilterFrameworkProductNames) => {
-    setFilter(filterValues);
-    fetchLibraries(filterValues);
-  };
-
-  const fetchLibraries = async (filters: FilterFrameworkProductNames) => {
-    const { items } = await LibraryAPI.get(
-      filters,
-      undefined,
-      undefined,
-      currentPage,
-      pageSize,
-    );
-    setSearchResults(items);
-  };
-
-  const handleSortChange = (value: string) => {
-    let sortedResults;
-    if (value === OrderBy.Downloads) {
-      sortedResults = [...searchResults].sort(
-        (a, b) => b.downloadsCount - a.downloadsCount,
-      );
-    } else if (value === OrderBy.LastUpdated) {
-      sortedResults = [...searchResults].sort(
-        (a, b) =>
-          new Date(b.lastUpdateTime).getTime() -
-          new Date(a.lastUpdateTime).getTime(),
-      );
+    const params = new URLSearchParams(searchParams);
+    if (page > 1) {
+      params.set('page', page.toString());
     } else {
-      // Default sorting or handle other cases
-      sortedResults = [...searchResults];
+      params.delete('page');
     }
-    setSearchResults(sortedResults);
+
+    await router.replace(`${pathname}?${params.toString()}`);
   };
 
-  const makeTextWrapByDots = (inputText: string) => {
-    return inputText.replace(/\./g, '.\u200B');
+  const handleApplyFilters = async (filter: FilterFrameworkProductNames) => {
+    const params = new URLSearchParams(searchParams);
+    const frameworks: string[] = [];
+
+    if (filter.net) {
+      frameworks.push('net');
+    }
+    if (filter.netCore) {
+      frameworks.push('netcoreapp');
+    }
+    if (filter.netStandard) {
+      frameworks.push('netstandard');
+    }
+    if (filter.netFramework) {
+      frameworks.push('netframework');
+    }
+
+    if (frameworks.length > 0) {
+      params.set('frameworks', frameworks.join(','));
+    } else {
+      params.delete('frameworks');
+    }
+
+    await router.replace(`${pathname}?${params.toString()}`);
   };
 
-  const extractDateFromDateTime = (datetime: Date) => {
-    return datetime.toString().split('T')[0];
+  const handleSortChange = async (sortValue: SortBy) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (sortValue) {
+      params.set('sortby', sortValue);
+    } else {
+      params.delete('sortby');
+    }
+
+    await router.replace(`${pathname}?${params.toString()}`);
   };
 
-  const onSearchSubmit = async (searchTerm: string) => {
-    const { items } = await LibraryAPI.get(
-      filter,
-      undefined,
-      searchTerm,
-      currentPage,
-      pageSize,
-    );
-    // @ts-ignore
-    const { $values: libraries } = items;
-    setSearchResults(libraries);
+  const onSearchSubmit = async (term: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (term) {
+      params.set('q', term);
+    } else {
+      params.delete('q');
+    }
+
+    await router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -127,11 +117,11 @@ const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
         flexWrap="wrap"
         gap="30px"
       >
-        <FrameworkFilter onApplyFilters={onApplyFilters} />
+        <FrameworkFilter onApplyFilters={handleApplyFilters} />
         <SortDropdown onSortChange={handleSortChange} />
       </Box>
 
-      {searchResults.map((library, index) => (
+      {libraries.map((library, index) => (
         <ListItem key={index} divider>
           <Card variant="outlined" sx={{ width: '100%' }}>
             <CardContent
@@ -149,7 +139,7 @@ const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
                 <Box display="flex" columnGap="10px" flexWrap="wrap">
                   <Link href={`/libraries/${library.id}`}>
                     <Typography variant="h6">
-                      {makeTextWrapByDots(library.name)}
+                      {library.name.replace(/\./g, '.\u200B')}
                     </Typography>
                   </Link>
                   <Typography color="textSecondary">
@@ -158,11 +148,11 @@ const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
                 </Box>
                 <Box display="flex" columnGap="20px" flexWrap="wrap">
                   <Typography>
-                    {library.downloadsCount} total downloads
+                    {library.downloadsCount.toLocaleString()} total downloads
                   </Typography>
                   <Typography>
                     last updated{' '}
-                    {extractDateFromDateTime(library.lastUpdateTime)}
+                    {library.lastUpdateTime.toString().split('T')[0]}
                   </Typography>
                   <Typography>Latest version: {}</Typography>
                 </Box>

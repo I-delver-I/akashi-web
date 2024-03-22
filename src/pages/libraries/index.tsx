@@ -3,25 +3,32 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import PageLayout from '@/components/common/layout/page-layout';
 import LibrarySearchPage from '@/components/pages/library-search';
 import { FilterFrameworkProductNames } from '@/components/pages/library-search/components/framework-filter/FrameworkFilter';
-import { OrderBy } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
+import { SortBy } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
 import { LibrarySearchPageProps } from '@/components/pages/library-search/LibrarySearchPage';
 import LibraryAPI from '@/lib/api/library/LibraryAPI';
 
 export const getServerSideProps: GetServerSideProps<
   LibrarySearchPageProps
-> = async () => {
+> = async context => {
   try {
-    const filter = {
-      dotNetFramework: false,
-      dotNetStandard: false,
-      dotNet: false,
-      dotNetCore: false,
-    } as FilterFrameworkProductNames;
+    const query = context.query?.q as string | undefined;
+    const sortBy = context.query?.sortby as SortBy | undefined;
+    const page = context.query?.page as number | undefined;
 
-    const { currentPage, pageSize, items, totalCount } =
-      await LibraryAPI.get(filter);
-    // @ts-ignore
-    const { $values: libraries } = items;
+    const frameworks = context.query?.frameworks;
+    const frameworksFilter: FilterFrameworkProductNames = {
+      net: frameworks?.includes('net') ?? false,
+      netCore: frameworks?.includes('netcoreapp') ?? false,
+      netStandard: frameworks?.includes('netstandard') ?? false,
+      netFramework: frameworks?.includes('netframework') ?? false,
+    };
+
+    const {
+      pageSize,
+      items: libraries,
+      totalCount,
+      currentPage,
+    } = await LibraryAPI.get(10, frameworksFilter, sortBy, query, page);
 
     return {
       props: {
@@ -48,8 +55,8 @@ const LibrariesSearch = ({
   return (
     <PageLayout title="Search libraries">
       <LibrarySearchPage
-        libraries={libraries}
         currentPage={currentPage}
+        libraries={libraries}
         pageSize={pageSize}
         totalCount={totalCount}
       />
