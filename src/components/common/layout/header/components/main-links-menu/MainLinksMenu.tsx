@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import * as styles from '@/components/common/layout/header/components/main-links-menu/MainLinksMenu.styles';

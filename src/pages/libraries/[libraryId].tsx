@@ -46,10 +46,8 @@ const LibraryDetails = ({
   libraryVersions,
   library,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const detailsPageTitle = `AkaShi Gallery | ${library.name}`;
-
   return (
-    <PageLayout title={detailsPageTitle}>
+    <PageLayout title={`AkaShi Gallery | ${library.name}`}>
       <LibraryDetailsPage libraryVersions={libraryVersions} library={library} />
     </PageLayout>
   );

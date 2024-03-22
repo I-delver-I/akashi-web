@@ -20,7 +20,7 @@ const Paginator: FC<PaginationProps> = ({
     <Pagination
       count={pageCount}
       page={currentPage}
-      onChange={(event, page) => onPageChange(page)}
+      onChange={(_event, page) => onPageChange(page)}
     />
   );
 };
