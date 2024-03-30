@@ -18,7 +18,7 @@ export interface LibraryWithDetails extends Library {
 }
 
 export interface PaginatedLibraries {
-  items: Library[];
+  items: LibraryWithDetails[];
   currentPage: number;
   pageSize: number;
   totalCount: number;

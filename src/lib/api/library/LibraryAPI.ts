@@ -1,9 +1,8 @@
 import { FilterFrameworkProductNames } from '@/components/pages/library-search/components/framework-filter/FrameworkFilter';
 import { SortBy } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
 import { client } from '@/lib/api/instance';
-import { LibraryBody } from '@/lib/api/library/types/LibraryBody';
 import { getAuthorizationHeader } from '@/lib/api/utils';
-import { Library, PaginatedLibraries } from '@/types/library';
+import { LibraryWithDetails, PaginatedLibraries } from '@/types/library';
 
 class LibraryAPI {
   async get(
@@ -53,20 +52,28 @@ class LibraryAPI {
       },
     });
 
-    // @ts-ignore
+    // @ts-expect-error: The $values property does not exist on type 'unknown'.
     data.items = data.items.$values;
+    data.items.forEach((library: LibraryWithDetails) => {
+      // @ts-expect-error: The $values property does not exist on type 'unknown'.
+      library.libraryVersions = library.libraryVersions.$values;
+    });
+
     return data;
   }
 
   async getById(id: number) {
-    const { data } = await client.get<Library>(`/libraries/${id}`);
+    const { data } = await client.get<LibraryWithDetails>(`/libraries/${id}`);
+
+    // @ts-expect-error: The $values property does not exist on type 'unknown'.
+    data.libraryVersions = data.libraryVersions.$values;
     return data;
   }
 
-  async create(body: LibraryBody) {
+  async create(formData: FormData) {
     const { data } = await client.post(
       '/libraries',
-      body,
+      formData,
       getAuthorizationHeader(),
     );
     return data;
