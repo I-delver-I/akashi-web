@@ -18,7 +18,8 @@ import Searchbar from '@/components/pages/library-search/components/searchbar/Se
 import SortDropdown, {
   SortBy,
 } from '@/components/pages/library-search/components/sort-dropdown/SortDropdown';
-import { Library } from '@/types/library';
+import getLatestLibraryVersion from '@/lib/utils/getLatestLibraryVersion';
+import { LibraryWithDetails } from '@/types/library';
 
 import * as styles from './LibrarySearchPage.styles';
 
@@ -26,7 +27,7 @@ export interface LibrarySearchPageProps {
   currentPage: number;
   pageSize: number;
   totalCount: number;
-  libraries: Library[];
+  libraries: LibraryWithDetails[];
 }
 
 const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
@@ -102,7 +103,6 @@ const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
 
     await router.replace(`${pathname}?${params.toString()}`);
   };
-
   return (
     <Container sx={styles.layout}>
       <Searchbar
@@ -121,54 +121,60 @@ const LibrarySearchPage: FC<LibrarySearchPageProps> = ({
         <SortDropdown onSortChange={handleSortChange} />
       </Box>
 
-      {libraries.map((library, index) => (
-        <ListItem key={index} divider>
-          <Card variant="outlined" sx={{ width: '100%' }}>
-            <CardContent
-              sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
-            >
-              {!isDesktop && (
-                <Image
-                  src={library.logoURL}
-                  alt="library logo"
-                  width={50}
-                  height={50}
-                />
-              )}
-              <Box>
-                <Box display="flex" columnGap="10px" flexWrap="wrap">
-                  <Link href={`/libraries/${library.id}`}>
-                    <Typography variant="h6">
-                      {library.name.replace(/\./g, '.\u200B')}
-                    </Typography>
-                  </Link>
-                  <Typography color="textSecondary">
-                    dev: {library.user.username}
-                  </Typography>
-                </Box>
-                <Box display="flex" columnGap="20px" flexWrap="wrap">
-                  <Typography>
-                    {library.downloadsCount.toLocaleString()} total downloads
-                  </Typography>
-                  <Typography>
-                    last updated{' '}
-                    {library.lastUpdateTime.toString().split('T')[0]}
-                  </Typography>
-                  <Typography>Latest version: {}</Typography>
-                </Box>
-                {library.tags && (
-                  <Typography color="textSecondary">
-                    tags: {library.tags}
-                  </Typography>
+      <Box mb="11px">
+        {libraries.map((library, index) => (
+          <ListItem key={index} divider>
+            <Card variant="outlined" sx={{ width: '100%' }}>
+              <CardContent
+                sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
+              >
+                {!isDesktop && (
+                  <Image
+                    src={library.logoURL}
+                    alt="library logo"
+                    width={50}
+                    height={50}
+                  />
                 )}
-                <Typography color="textSecondary">
-                  {library.shortDescription}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </ListItem>
-      ))}
+                <Box>
+                  <Box display="flex" columnGap="10px" flexWrap="wrap">
+                    <Link href={`/libraries/${library.id}`}>
+                      <Typography variant="h6">
+                        {library.name.replace(/\./g, '.\u200B')}
+                      </Typography>
+                    </Link>
+                    <Typography color="textSecondary">
+                      dev: {library.user.username}
+                    </Typography>
+                  </Box>
+                  <Box display="flex" columnGap="20px" flexWrap="wrap">
+                    <Typography>
+                      {library.downloadsCount.toLocaleString()} total downloads
+                    </Typography>
+                    <Typography>
+                      last updated{' '}
+                      {library.lastUpdateTime.toString().split('T')[0]}
+                    </Typography>
+                    <Typography>
+                      Latest version:{' '}
+                      {getLatestLibraryVersion(library.libraryVersions)?.name ??
+                        'N/A'}
+                    </Typography>
+                  </Box>
+                  {library.tags && (
+                    <Typography color="textSecondary">
+                      tags: {library.tags}
+                    </Typography>
+                  )}
+                  <Typography color="textSecondary">
+                    {library.shortDescription}
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </ListItem>
+        ))}
+      </Box>
       <Paginator
         currentPage={currentPage}
         pageSize={pageSize}

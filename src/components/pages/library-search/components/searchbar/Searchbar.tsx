@@ -30,6 +30,7 @@ const Searchbar = ({ onSubmit }: SearchbarProps) => {
         px: 1,
         py: 0.5,
         marginTop: '10px',
+        width: '100%',
       }}
       onSubmit={e => {
         e.preventDefault();
