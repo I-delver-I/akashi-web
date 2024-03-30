@@ -28,7 +28,7 @@ const Footer: FC = () => {
       </Box>
 
       <Box sx={styles.support}>
-        <Typography sx={styles.title}>Support</Typography>
+        <Typography>Support</Typography>
         {supportLinks.map((data, index) => (
           <Link
             key={index}
@@ -37,7 +37,7 @@ const Footer: FC = () => {
             underline="none"
           >
             <Button
-              sx={styles.button}
+              // sx={styles.button}
               text={data.text}
               size={ButtonSize.SMALL}
               variant={ButtonVariant.TEXT}

@@ -2,13 +2,11 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { alpha } from '@mui/system';
 
 export const footerContainer: SxProps<Theme> = theme => ({
-  display: {
-    desktop: 'flex',
-    mobile: 'grid',
-  },
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   overflow: 'hidden',
-  width: { mobile: '100%', mobileSemiMedium: '100%' },
-  paddingLeft: { mobile: '5%', mobileSemiMedium: '0%' },
+  width: '100%',
   backgroundColor: alpha(theme.palette.grey[50], 0.62),
   height: {
     desktop: '300px',
@@ -18,13 +16,9 @@ export const footerContainer: SxProps<Theme> = theme => ({
 });
 
 export const footerLogoContainer: SxProps<Theme> = {
-  width: '100%',
   display: 'flex',
-  // flexDirection: 'column',
-  justifyContent: {
-    desktop: 'flex-start',
-    mobile: 'end',
-  },
+  flexDirection: 'column',
+  // alignItems: 'center',
   marginTop: {
     desktop: '40px',
     mobile: '45px',
@@ -36,14 +30,7 @@ export const footerLogoContainer: SxProps<Theme> = {
     desktop: '0px',
     mobile: '15px',
   },
-  alignItems: {
-    desktop: 'stretch',
-    mobile: 'center',
-  },
-  gridRowStart: 2,
-  gridColumnStart: 3,
-  gridRowEnd: 2,
-  gridColumnEnd: 1,
+  alignItems: 'center',
 };
 
 export const footerLogo: SxProps<Theme> = {
@@ -93,7 +80,7 @@ export const title: SxProps<Theme> = () => ({
 
 export const support: SxProps<Theme> = {
   display: 'flex',
-  // flexDirection: 'column',
+  flexDirection: 'column',
   alignItems: 'flex-start',
   gap: '2px',
   typography: 'body1Medium',
@@ -104,18 +91,14 @@ export const support: SxProps<Theme> = {
   marginRight: {
     desktop: '72px',
   },
-  marginLeft: {
-    desktop: '0',
-    mobile: '45px',
-  },
-  gridRowStart: 1,
-  gridColumnStart: 2,
-  gridRowEnd: 3,
-  gridColumnEnd: 3,
+  // marginLeft: {
+  //   desktop: '0',
+  //   mobile: '45px',
+  // },
 };
 
 export const button: SxProps<Theme> = {
-  width: 'fit-content',
-  paddingLeft: '12px',
+  // width: 'fit-content',
+  // paddingLeft: '12px',
   typography: 'body1Medium',
 };
