@@ -21,7 +21,7 @@ const UploadPage: FC = () => {
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [logoURL, setLogoURL] = useState('');
+  const [, setLogoURL] = useState('');
   const router = useRouter();
   const toastError = useToastError();
 
@@ -32,9 +32,9 @@ const UploadPage: FC = () => {
     if (file) {
       const formData = new FormData();
       console.log('file', file);
-      formData.append('InitialVersionArchive', file); // Changed from 'libraryVersion' to 'InitialVersionArchive'
-      formData.append('Name', values.libraryName); // Ensure that 'Name' matches the DTO property
-      formData.append('InitialVersionName', values.versionName); // Ensure that 'InitialVersionName' matches the DTO property
+      formData.append('InitialVersionArchive', file);
+      formData.append('Name', values.libraryName);
+      formData.append('InitialVersionName', values.versionName);
       console.log('values', values);
       try {
         await libraryAPI.create(formData);

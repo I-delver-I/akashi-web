@@ -33,7 +33,7 @@ const MainPage: FC = () => {
           Welcome to AkaShi
         </Typography>
         <Typography variant="h5">Your premiere C# library registry</Typography>
-        <Link href="/libraries" passHref component={NextLink}>
+        <Link href={'/libraries'} passHref component={NextLink}>
           <Button variant="contained" color="primary" sx={{ mt: 2 }}>
             Get Started
           </Button>
