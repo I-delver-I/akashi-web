@@ -19,9 +19,9 @@ export const wrapper = (isDragging: boolean): SxProps<Theme> => ({
   ...(!isDragging && {
     backgroundColor: 'backgroundDark.200',
   }),
-  borderRadius: '4px',
-  border: '2px dashed',
-  borderColor: 'backgroundDark.600',
+  // borderRadius: '4px',
+  // border: '2px dashed',
+  // borderColor: 'backgroundDark.600',
 
   svg: {
     width: '32.5px',

@@ -1,11 +1,14 @@
 import { ChangeEvent, DragEvent, FC, useRef, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
+import TextField from '@mui/material/TextField';
+import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 
+import LoginButton from '@/components/common/layout/header/components/authentication-buttons/LoginButton';
 import Button from '@/components/common/ui/button-mui';
 import { ButtonSize } from '@/components/common/ui/button-mui/types';
 import { handleFileSelect } from '@/components/pages/upload-page/utils/handleFileSelect';
+import useAuthentication from '@/hooks/use-authentication';
 import useToast from '@/hooks/use-toast';
 import { useToastError } from '@/hooks/use-toast-error/useToastError';
 import libraryAPI from '@/lib/api/library/LibraryAPI';
@@ -13,6 +16,7 @@ import libraryAPI from '@/lib/api/library/LibraryAPI';
 import * as styles from './UploadPage.styles';
 
 const UploadPage: FC = () => {
+  const { isLoggedIn } = useAuthentication();
   const [isDragging, setIsDragging] = useState(false);
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -21,14 +25,20 @@ const UploadPage: FC = () => {
   const router = useRouter();
   const toastError = useToastError();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: {
+    libraryName: string;
+    versionName: string;
+  }) => {
     if (file) {
       const formData = new FormData();
-      formData.append('logo', file);
-
+      console.log('file', file);
+      formData.append('InitialVersionArchive', file); // Changed from 'libraryVersion' to 'InitialVersionArchive'
+      formData.append('Name', values.libraryName); // Ensure that 'Name' matches the DTO property
+      formData.append('InitialVersionName', values.versionName); // Ensure that 'InitialVersionName' matches the DTO property
+      console.log('values', values);
       try {
-        await libraryAPI.addLogo(formData);
-        toast.success('Logo successfully added!', '', 1000);
+        await libraryAPI.create(formData);
+        toast.success('Library successfully created!', '', 2000);
         setTimeout(() => {
           router.reload();
         }, 1000);
@@ -37,17 +47,6 @@ const UploadPage: FC = () => {
       }
     }
   };
-
-  const handleDragEnter = (event: DragEvent) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (event: DragEvent) => {
-    event.preventDefault();
-    setIsDragging(false);
-  };
-
   const openFileInput = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -71,34 +70,76 @@ const UploadPage: FC = () => {
   };
 
   return (
-    <Box>
-      <Formik initialValues={{}} onSubmit={handleSubmit}>
-        <Form>
-          <Box
-            sx={styles.wrapper(isDragging)}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDragOver={event => event.preventDefault()}
-            onDrop={handleDropOrFileChange}
+    <Box
+      sx={{
+        width: '100%',
+        flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {isLoggedIn ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h4">Upload</Typography>
+          <Formik
+            initialValues={{ libraryName: '', versionName: '' }}
+            onSubmit={handleSubmit}
           >
-            <Typography variant="h6Bold">Перетягни сюди</Typography>
-            <Typography variant="body2Medium">або</Typography>
-            <Button
-              type={'submit'}
-              text={'Choose file'}
-              size={ButtonSize.MEDIUM}
-              sx={styles.button}
-              onClick={openFileInput}
-            />
-            <input
-              accept=".png, .jpg, .jpeg, .webp"
-              type="file"
-              style={styles.input}
-              onChange={handleDropOrFileChange}
-            />
-          </Box>
-        </Form>
-      </Formik>
+            {({ values, handleChange }) => (
+              <Form>
+                <Box sx={styles.wrapper(isDragging)}>
+                  <Field
+                    as={TextField}
+                    name="libraryName"
+                    label="Library Name"
+                    value={values.libraryName}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Field
+                    as={TextField}
+                    name="versionName"
+                    label="Version Name"
+                    value={values.versionName}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Button
+                    text={'Choose file'}
+                    size={ButtonSize.MEDIUM}
+                    sx={styles.button}
+                    onClick={openFileInput}
+                  />
+                  <Button
+                    type={'submit'}
+                    text={'Submit'}
+                    size={ButtonSize.MEDIUM}
+                    sx={styles.button}
+                  />
+                  <input
+                    accept=".zip, .rar, .tar, .gzip, .7z"
+                    type="file"
+                    style={styles.input}
+                    ref={fileInputRef}
+                    onChange={handleDropOrFileChange}
+                  />
+                </Box>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+      ) : (
+        <LoginButton />
+      )}
     </Box>
   );
 };

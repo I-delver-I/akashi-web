@@ -1,6 +1,6 @@
-export const isValidFile = (file: File) => {
+export const isValidArchiveFile = (file: File) => {
   if (file) {
-    const allowedExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+    const allowedExtensions = ['.zip', '.rar', '.tar', '.gzip', '.7z'];
     const fileExtension = file.name
       .slice(file.name.lastIndexOf('.') + 1)
       .toLowerCase();
