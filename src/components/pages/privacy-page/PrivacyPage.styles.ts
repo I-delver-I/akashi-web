@@ -9,6 +9,7 @@ export const privacyContent: SxProps<Theme> = {
 
 export const privacyListInfo: SxProps<Theme> = {
   margin: '1% 0 0',
+  textAlign: 'justify',
 };
 
 export const privacyList: SxProps<Theme> = {

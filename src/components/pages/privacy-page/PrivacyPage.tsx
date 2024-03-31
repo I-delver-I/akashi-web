@@ -3,10 +3,11 @@ import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
 import * as stylesMUI from '@/components/pages/privacy-page/PrivacyPage.styles';
+import mergeSx from "@/lib/utils/MergeSxStylesUtil";
 
 const PrivacyPage = () => {
   return (
-    <Box sx={stylesMUI.privacyContent}>
+    <Box sx={stylesMUI.privacyContent} margin={'20px'}>
       <Typography variant="h4Bold">Privacy policy</Typography>
       <Box sx={stylesMUI.privacyList}>
         <Box>
@@ -42,7 +43,7 @@ const PrivacyPage = () => {
           <Typography
             variant={'body1'}
             paragraph
-            sx={stylesMUI.privacyListInfo}
+            sx={mergeSx(stylesMUI.privacyListInfo, { textWrap: 'balance' })}
           >
             The system is an Open-Source project, so all the code is in public
             space via the link{' '}
