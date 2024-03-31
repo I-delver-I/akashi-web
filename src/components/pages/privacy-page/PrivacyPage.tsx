@@ -15,11 +15,12 @@ const PrivacyPage = () => {
             paragraph
             sx={stylesMUI.privacyListInfo}
           >
-            AkaShi – це курсова робота з дисципліни "Компоненти програмної
-            інженерії" навчального закладу “Київський політехнічний інститут ім.
-            Ігоря Сікорського” (далі – Система). The main tasks of the System
-            are забезпечення якості вищої освіти, цифровізація та автоматизація
-            внутрішніх та зовнішніх процесів Студради ФІОТ та її відділів.
+            AkaShi – is a coursework from the discipline "Software Engineering
+            Components" of the educational institution "Kyiv Polytechnic
+            Institute named after Igor Sikorsky" (hereinafter - System). The
+            main tasks of the System are storing of libraries, providing
+            opportunity to support them, download and obtain statistical
+            information.
           </Typography>
         </Box>
         <Box>
