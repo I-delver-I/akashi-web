@@ -13,6 +13,8 @@ export const footerContainer: SxProps<Theme> = theme => ({
     mobileSemiMedium: '320px',
     mobile: '320px',
   },
+  padding: '20px',
+  borderTop: `1px solid ${theme.palette.divider}`,
 });
 
 export const footerLogoContainer: SxProps<Theme> = {
@@ -20,8 +22,8 @@ export const footerLogoContainer: SxProps<Theme> = {
   flexDirection: 'column',
   // alignItems: 'center',
   marginTop: {
-    desktop: '40px',
-    mobile: '45px',
+    desktop: '60px',
+    mobile: '55px',
   },
   marginLeft: {
     desktop: '80px',
@@ -90,6 +92,9 @@ export const support: SxProps<Theme> = {
   },
   marginRight: {
     desktop: '72px',
+  },
+  '& a:hover': {
+    textDecoration: 'underline',
   },
   // marginLeft: {
   //   desktop: '0',
