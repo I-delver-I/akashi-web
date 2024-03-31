@@ -1,5 +1,5 @@
 import { ChangeEvent, DragEvent, FC, useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
@@ -138,7 +138,21 @@ const UploadPage: FC = () => {
           </Formik>
         </Box>
       ) : (
-        <LoginButton />
+        <Card
+          sx={{
+            maxWidth: 345,
+            margin: 'auto',
+            marginTop: '15%',
+            boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" component="div">
+              Welcome! Please log in.
+            </Typography>
+            <LoginButton />
+          </CardContent>
+        </Card>
       )}
     </Box>
   );
