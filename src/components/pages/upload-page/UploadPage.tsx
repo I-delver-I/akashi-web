@@ -1,5 +1,5 @@
 import { ChangeEvent, DragEvent, FC, useRef, useState } from 'react';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
@@ -7,11 +7,11 @@ import { useRouter } from 'next/router';
 import LoginButton from '@/components/common/layout/header/components/authentication-buttons/LoginButton';
 import Button from '@/components/common/ui/button-mui';
 import { ButtonSize } from '@/components/common/ui/button-mui/types';
-import { handleFileSelect } from '@/components/pages/upload-page/utils/handleFileSelect';
 import useAuthentication from '@/hooks/use-authentication';
 import useToast from '@/hooks/use-toast';
 import { useToastError } from '@/hooks/use-toast-error/useToastError';
 import libraryAPI from '@/lib/api/library/LibraryAPI';
+import mergeSx from '@/lib/utils/MergeSxStylesUtil';
 
 import * as styles from './UploadPage.styles';
 
@@ -22,6 +22,7 @@ const UploadPage: FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [, setLogoURL] = useState('');
+  const [fileName, setFileName] = useState('');
   const router = useRouter();
   const toastError = useToastError();
 
@@ -53,19 +54,30 @@ const UploadPage: FC = () => {
     }
   };
 
+  const discardFile = () => {
+    setFile(null);
+    setFileName(''); // Reset the file name
+    setLogoURL(''); // Assuming you're using this for previews
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''; // Reset the input field
+    }
+  };
+
   const handleDropOrFileChange = (
     event: DragEvent | ChangeEvent<HTMLInputElement>,
   ) => {
     event.preventDefault();
     setIsDragging(false);
 
-    const file =
+    const newFile =
       'dataTransfer' in event
         ? event.dataTransfer.files[0]
         : event.target.files && event.target.files[0];
 
-    if (file) {
-      handleFileSelect(file, toast, setFile, setLogoURL);
+    if (newFile) {
+      setFile(newFile);
+      setFileName(newFile.name); // Update the file name state
+      setLogoURL(URL.createObjectURL(newFile)); // This is assuming you want to preview the file (if it's an image)
     }
   };
 
@@ -85,6 +97,9 @@ const UploadPage: FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'flex-start',
+            margin: '15px',
+            maxWidth: '280px',
           }}
         >
           <Typography variant="h4">Upload</Typography>
@@ -103,6 +118,7 @@ const UploadPage: FC = () => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    sx={{ minWidth: '280px' }}
                   />
                   <Field
                     as={TextField}
@@ -123,7 +139,9 @@ const UploadPage: FC = () => {
                     type={'submit'}
                     text={'Submit'}
                     size={ButtonSize.MEDIUM}
-                    sx={styles.button}
+                    sx={mergeSx(styles.button, {
+                      backgroundColor: 'primary.main',
+                    })}
                   />
                   <input
                     accept=".zip, .rar, .tar, .gzip, .7z"
@@ -136,6 +154,25 @@ const UploadPage: FC = () => {
               </Form>
             )}
           </Formik>
+          {fileName && (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mt: 2,
+                gap: '10px',
+              }}
+            >
+              <Typography variant="body1">{fileName}</Typography>
+              <Chip
+                label="Discard"
+                onClick={discardFile}
+                color="secondary"
+                variant="outlined"
+              />
+            </Box>
+          )}
         </Box>
       ) : (
         <Card
@@ -148,7 +185,7 @@ const UploadPage: FC = () => {
         >
           <CardContent>
             <Typography variant="h5" component="div">
-              Welcome! Please log in.
+              Welcome! Please log in
             </Typography>
             <LoginButton />
           </CardContent>
