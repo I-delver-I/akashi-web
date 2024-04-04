@@ -5,6 +5,21 @@ import { getAuthorizationHeader } from '@/lib/api/utils';
 import { LibraryWithDetails, PaginatedLibraries } from '@/types/library';
 
 class LibraryAPI {
+  async getCurrentUserLibraries() {
+    let { data } = await client.get<LibraryWithDetails[]>(
+      '/libraries/current-user',
+      getAuthorizationHeader(),
+    );
+
+    // @ts-expect-error: The $values property does not exist on type 'unknown'.
+    data = data.$values;
+    data.forEach((library: LibraryWithDetails) => {
+      // @ts-expect-error: The $values property does not exist on type 'unknown'.
+      library.libraryVersions = library.libraryVersions.$values;
+    });
+    return data;
+  }
+
   async get(
     pageSize: number,
     frameworksFilter?: FilterFrameworkProductNames,
