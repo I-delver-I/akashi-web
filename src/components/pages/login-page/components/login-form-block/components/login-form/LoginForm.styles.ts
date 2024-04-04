@@ -13,6 +13,7 @@ export const passwordLink: SxProps<Theme> = {
 
 export const loginButton: SxProps<Theme> = {
   borderRadius: '8px',
+  color: 'white',
 
   [theme.breakpoints.down('mobileMedium')]: {
     padding: '12px 24px',

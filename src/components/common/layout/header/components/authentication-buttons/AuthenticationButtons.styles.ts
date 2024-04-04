@@ -24,7 +24,7 @@ export const authenticationButtons: SxProps<Theme> = {
 
 export const registerButton: SxProps<Theme> = {
   width: '100%',
-  color: 'red',
+  color: 'black',
   maxWidth: {
     desktopSemiMedium: 'unset',
     mobile: '328px',
@@ -37,4 +37,5 @@ export const loginButton: SxProps<Theme> = {
     desktopSemiMedium: 'unset',
     mobile: '328px',
   },
+  color: 'black',
 };

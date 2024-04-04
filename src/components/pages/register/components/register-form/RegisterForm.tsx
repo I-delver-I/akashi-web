@@ -1,4 +1,5 @@
 import React, { FC, useCallback } from 'react';
+import { FormControlLabel } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 
@@ -8,6 +9,7 @@ import { Input, InputType } from '@/components/common/ui/form';
 import Checkbox from '@/components/common/ui/form/with-formik/checkbox';
 import { RegisterFormFields } from '@/components/pages/register/components/register-form/types';
 import { transformData } from '@/components/pages/register/components/register-form/utils';
+import useAuthentication from '@/hooks/use-authentication';
 import useToast from '@/hooks/use-toast';
 import { useToastError } from '@/hooks/use-toast-error/useToastError';
 import AuthService from '@/lib/services/auth';
@@ -21,11 +23,16 @@ const RegisterForm: FC = () => {
   const { displayError } = useToastError();
   const router = useRouter();
   const toast = useToast();
+  const redirect = router.query.redirect as string;
+  const { update } = useAuthentication();
 
   const handleSubmit = useCallback(
     async (data: RegisterFormFields) => {
       try {
         await AuthService.register(transformData(data));
+        await AuthService.login(data);
+        await update();
+        await router.push(redirect ? redirect.replace('~', '/') : '/');
       } catch (error) {
         displayError(error);
       }
@@ -64,9 +71,9 @@ const RegisterForm: FC = () => {
             name="passwordConfirmation"
             maxLength={32}
           />
-          <Checkbox
-            label={'I agree to the processing of personal data'}
-            name={'agreement'}
+          <FormControlLabel
+            control={<Checkbox name="agreement" />}
+            label="I agree to the processing of personal data"
             sx={stylesMUI.checkbox}
           />
           <Button

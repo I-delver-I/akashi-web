@@ -19,6 +19,7 @@ const RegisterButton = () => {
     >
       <Button
         text="Register"
+        sx={{ color: 'orange' }}
         size={ButtonSize.SMALL}
         variant={ButtonVariant.OUTLINE}
       />

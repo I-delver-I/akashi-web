@@ -7,13 +7,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 
 import useAuthentication from '@/hooks/use-authentication';
 import AuthService from '@/lib/services/auth';
 
 const PreferencesMenu: FC = () => {
-  const { replace, reload } = useRouter();
+  const { reload } = useRouter();
   const { update } = useAuthentication();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -35,9 +36,9 @@ const PreferencesMenu: FC = () => {
 
   const handleLogout = async () => {
     await AuthService.logout();
-    update();
+    await update();
     reload();
-    await replace('/login');
+    // await replace('/');
   };
 
   return (
@@ -64,7 +65,7 @@ const PreferencesMenu: FC = () => {
         onClose={handleCloseUserMenu}
       >
         <MenuItem
-          component={Link}
+          component={NextLink}
           href="/manage-libraries"
           onClick={handleCloseUserMenu}
         >

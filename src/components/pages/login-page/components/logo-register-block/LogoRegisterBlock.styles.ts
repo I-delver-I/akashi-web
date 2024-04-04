@@ -17,9 +17,11 @@ export const logoRegisterBlock: SxProps<Theme> = {
 
 export const registerText: SxProps<Theme> = {
   textAlign: 'center',
+  color: theme.palette.grey[800],
 };
 
 export const registerButton: SxProps<Theme> = {
   maxWidth: '300px',
   borderRadius: '8px',
+  color: 'orange',
 };

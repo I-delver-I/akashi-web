@@ -15,6 +15,7 @@ export const loginHeader: SxProps<Theme> = {
   fontSize: '36px',
   lineHeight: '128%',
   fontWeight: '600',
+  color: theme.palette.grey[800],
   display: {
     mobile: 'none',
     desktopSemiMedium: 'block',

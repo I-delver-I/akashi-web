@@ -8,8 +8,10 @@ export const registerButton: SxProps<Theme> = {
     tablet: '16px 32px',
   },
   borderRadius: '8px',
+  color: 'orange',
 };
 
 export const checkbox: SxProps<Theme> = {
   marginTop: '14px',
+  color: 'white',
 };

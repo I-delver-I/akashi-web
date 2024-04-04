@@ -20,10 +20,12 @@ export const loginText: SxProps<Theme> = {
   fontWeight: '600',
   fontSize: '36px',
   lineHeight: '128%',
+  color: theme.palette.grey[800],
 };
 
 export const loginButton: SxProps<Theme> = {
   maxWidth: '324px',
   maxHeight: '48px',
   borderRadius: '8px',
+  color: 'white',
 };

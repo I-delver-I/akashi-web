@@ -21,6 +21,7 @@ const LoginButton = () => {
         text="Login"
         size={ButtonSize.SMALL}
         variant={ButtonVariant.FILLED}
+        sx={{ color: 'blue' }}
       />
     </Link>
   );

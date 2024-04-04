@@ -12,6 +12,7 @@ export const loginFormBlock: SxProps<Theme> = {
 
 export const loginHeader: SxProps<Theme> = {
   textAlign: 'center',
+  color: theme.palette.grey[800],
 
   [theme.breakpoints.down('desktopSemiMedium')]: {
     display: 'none',
@@ -23,6 +24,7 @@ export const registerMobileButton: SxProps<Theme> = {
   display: 'none',
   borderRadius: '6px',
   padding: '8px 16px',
+  color: 'orange',
 
   [theme.breakpoints.down('desktopSemiMedium')]: {
     display: 'flex',
@@ -34,6 +36,7 @@ export const comebackButton: SxProps<Theme> = {
   marginBottom: '40px',
   typography: theme.typography.body1Bold,
   gap: '10px',
+  color: theme.palette.grey[800],
 
   [theme.breakpoints.down('mobileMedium')]: {
     marginTop: '16px',
@@ -42,6 +45,7 @@ export const comebackButton: SxProps<Theme> = {
 
 export const divider: SxProps<Theme> = {
   width: '100%',
+  color: theme.palette.grey[800],
   '&::before, &::after': {
     borderColor: theme.palette.grey[800],
   },
