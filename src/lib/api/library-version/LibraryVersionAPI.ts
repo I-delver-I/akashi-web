@@ -1,12 +1,22 @@
 import { saveAs } from 'file-saver';
 
 import { client } from '@/lib/api/instance';
+import { getAuthorizationHeader } from '@/lib/api/utils';
 import {
   LibraryVersion,
   LibraryVersionWithDetails,
 } from '@/types/libraryVersion';
 
 class LibraryVersionAPI {
+  async create(formData: FormData) {
+    const { data } = await client.post(
+      '/libraryVersions',
+      formData,
+      getAuthorizationHeader(),
+    );
+    return data;
+  }
+
   async download(libraryVersionId: number, format: string) {
     try {
       const response = await client.get(
@@ -31,10 +41,12 @@ class LibraryVersionAPI {
   }
 
   async getByLibraryId(id: number) {
-    const { data } = await client.get<LibraryVersion[]>(
+    let { data } = await client.get<LibraryVersion[]>(
       `/libraryVersions/by-library/${id}`,
     );
 
+    // @ts-expect-error: The $values property does not exist on type 'unknown'.
+    data = data.$values;
     return data;
   }
 

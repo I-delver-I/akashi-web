@@ -10,8 +10,8 @@ import EditLibraryModal from './components/edit-library-modal';
 
 const ManageLibrariesPage = () => {
   const [libraries, setLibraries] = useState<LibraryWithDetails[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setIsLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentLibrary, setCurrentLibrary] =
     useState<LibraryWithDetails | null>(null);
