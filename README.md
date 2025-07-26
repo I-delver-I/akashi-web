@@ -30,3 +30,7 @@ Library page
 Manage libraries page
 <img width="1891" height="977" alt="image" src="https://github.com/user-attachments/assets/2f3a4592-0ae1-405e-b4bd-99712a459d00" />
 <img width="1883" height="974" alt="image" src="https://github.com/user-attachments/assets/c375ab3f-3c49-4b85-a977-3a007fff4f68" />
+
+Manage library versions page
+<img width="1889" height="980" alt="image" src="https://github.com/user-attachments/assets/bf11f3e8-00ab-4ce6-a55a-cf53fa591754" />
+<img width="1884" height="976" alt="image" src="https://github.com/user-attachments/assets/c6c96b61-6d15-4465-8537-b3f1cd245c16" />
