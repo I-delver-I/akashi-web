@@ -1,40 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Home page
+<img width="1885" height="981" alt="image" src="https://github.com/user-attachments/assets/9e73c625-dac0-4138-9fe4-e0b56f276751" />
 
-## Getting Started
+Libraries page
+<img width="1887" height="979" alt="image" src="https://github.com/user-attachments/assets/012f1d37-2624-41bc-bd3a-093647696592" />
+<img width="1884" height="980" alt="image" src="https://github.com/user-attachments/assets/6e1f8d5b-3f5c-4aec-8da5-e129ec2e17f2" />
 
-First, run the development server:
+Login page
+<img width="1883" height="979" alt="image" src="https://github.com/user-attachments/assets/1f920967-e162-4ce7-b188-2c054fbb0ea5" />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Register page
+<img width="1888" height="977" alt="image" src="https://github.com/user-attachments/assets/897346a4-cf23-415b-b12c-c4244278eb81" />
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Upload page
+<img width="1886" height="977" alt="image" src="https://github.com/user-attachments/assets/4ebd7819-56c0-4c54-a25d-21de99b9a4de" />
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Statistics page
+<img width="1887" height="978" alt="image" src="https://github.com/user-attachments/assets/87235bd3-6915-4d1d-a433-3adefffff93a" />
+<img width="1884" height="971" alt="image" src="https://github.com/user-attachments/assets/411da9d8-aab3-41c1-882f-835e0fb88c17" />
+<img width="1888" height="976" alt="image" src="https://github.com/user-attachments/assets/69f28c97-2d39-4742-acda-c6b48e3dc82e" />
