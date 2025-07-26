@@ -18,3 +18,8 @@ Statistics page
 <img width="1887" height="978" alt="image" src="https://github.com/user-attachments/assets/87235bd3-6915-4d1d-a433-3adefffff93a" />
 <img width="1884" height="971" alt="image" src="https://github.com/user-attachments/assets/411da9d8-aab3-41c1-882f-835e0fb88c17" />
 <img width="1888" height="976" alt="image" src="https://github.com/user-attachments/assets/69f28c97-2d39-4742-acda-c6b48e3dc82e" />
+
+Library page
+<img width="1888" height="976" alt="image" src="https://github.com/user-attachments/assets/f9cd0e49-30dd-454c-8664-a0d6603c8858" />
+<img width="1885" height="974" alt="image" src="https://github.com/user-attachments/assets/0524962b-6df5-4def-887a-b5aa36fd377b" />
+<img width="1882" height="977" alt="image" src="https://github.com/user-attachments/assets/2703ca8a-4962-46c9-81a7-7efb82bd7b8d" />
