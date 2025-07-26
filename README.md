@@ -14,6 +14,9 @@ Register page
 Upload page
 <img width="1886" height="977" alt="image" src="https://github.com/user-attachments/assets/4ebd7819-56c0-4c54-a25d-21de99b9a4de" />
 
+Upload page (registered user)
+<img width="1887" height="976" alt="image" src="https://github.com/user-attachments/assets/7d32f354-532d-4eab-8b96-a1254e38fe7b" />
+
 Statistics page
 <img width="1887" height="978" alt="image" src="https://github.com/user-attachments/assets/87235bd3-6915-4d1d-a433-3adefffff93a" />
 <img width="1884" height="971" alt="image" src="https://github.com/user-attachments/assets/411da9d8-aab3-41c1-882f-835e0fb88c17" />
@@ -23,3 +26,7 @@ Library page
 <img width="1888" height="976" alt="image" src="https://github.com/user-attachments/assets/f9cd0e49-30dd-454c-8664-a0d6603c8858" />
 <img width="1885" height="974" alt="image" src="https://github.com/user-attachments/assets/0524962b-6df5-4def-887a-b5aa36fd377b" />
 <img width="1882" height="977" alt="image" src="https://github.com/user-attachments/assets/2703ca8a-4962-46c9-81a7-7efb82bd7b8d" />
+
+Manage libraries page
+<img width="1891" height="977" alt="image" src="https://github.com/user-attachments/assets/2f3a4592-0ae1-405e-b4bd-99712a459d00" />
+<img width="1883" height="974" alt="image" src="https://github.com/user-attachments/assets/c375ab3f-3c49-4b85-a977-3a007fff4f68" />
